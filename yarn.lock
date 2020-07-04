@@ -937,6 +937,28 @@
     optimal "^4.2.0"
     pretty-ms "^5.1.0"
 
+"@boost/common@^2.0.0-alpha.1":
+  version "2.0.0-alpha.1"
+  resolved "https://registry.npmjs.org/@boost/common/-/common-2.0.0-alpha.1.tgz#1d4226d582c0f62620c245948fec93fa86b2e890"
+  integrity sha512-Vg5DgQ+BkDYBXEUul6Q++YznYrZ8j11e1O63k+IDpR40z/u3iFTKALuSLxaR++1On86+Eb6s/Kwze2oYlqDwSw==
+  dependencies:
+    "@boost/internal" "^2.0.0-alpha.1"
+    fast-glob "^3.2.4"
+    json5 "^2.1.3"
+    optimal "^4.2.0"
+    pretty-ms "^7.0.0"
+    yaml "^1.10.0"
+
+"@boost/config@^2.0.0-alpha.2":
+  version "2.0.0-alpha.2"
+  resolved "https://registry.npmjs.org/@boost/config/-/config-2.0.0-alpha.2.tgz#7cfd36461ec217547abe5558100fe2f0f214b69e"
+  integrity sha512-6WCywGjqL0JuhOUbbYcFpYm3SQIArVkR25lM5NBbBeHUzju8VK6T3eM8ldCuVHRAL/d4AeuZVFx46g6E3tCbpw==
+  dependencies:
+    "@boost/common" "^2.0.0-alpha.1"
+    "@boost/debug" "^2.0.0-alpha.1"
+    "@boost/internal" "^2.0.0-alpha.1"
+    minimatch "^3.0.4"
+
 "@boost/core@^1.18.6":
   version "1.18.6"
   resolved "https://registry.npmjs.org/@boost/core/-/core-1.18.6.tgz#2fd8ac16b05e2a92e2c0b92be9fd2ca704307630"
@@ -976,6 +998,18 @@
     debug "^4.1.1"
     execa "^3.4.0"
     fast-glob "^3.2.2"
+
+"@boost/debug@^2.0.0-alpha.1":
+  version "2.0.0-alpha.1"
+  resolved "https://registry.npmjs.org/@boost/debug/-/debug-2.0.0-alpha.1.tgz#466641aff5c79751e25161575d3b8dc51de532b0"
+  integrity sha512-DSPGIsdD8OpBagTAeAEhvGUB/qTD/56C9SzLAkIgRvfv1gKmBMvn0YxqagTWM1EEQAXRs5XJOBpUWruAgwtUKw==
+  dependencies:
+    "@boost/common" "^2.0.0-alpha.1"
+    "@boost/internal" "^2.0.0-alpha.1"
+    "@types/debug" "^4.1.5"
+    debug "^4.1.1"
+    execa "^4.0.2"
+    fast-glob "^3.2.4"
 
 "@boost/event@^1.3.1":
   version "1.3.1"
@@ -4789,10 +4823,10 @@ execa@^3.2.0, execa@^3.4.0:
     signal-exit "^3.0.2"
     strip-final-newline "^2.0.0"
 
-execa@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.npmjs.org/execa/-/execa-4.0.0.tgz#7f37d6ec17f09e6b8fc53288611695b6d12b9daf"
-  integrity sha512-JbDUxwV3BoT5ZVXQrSVbAiaXhXUkIwvbhPIwZ0N13kX+5yCzOhUNdocxB/UQRuYOHRYYwAxKYwJYc0T4D12pDA==
+execa@^4.0.0, execa@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.npmjs.org/execa/-/execa-4.0.2.tgz#ad87fb7b2d9d564f70d2b62d511bee41d5cbb240"
+  integrity sha512-QI2zLa6CjGWdiQsmSkZoGtDx2N+cQIGb3yNolGTdjSQzydzLgYYf8LRuagp7S7fPimjcrzUDSUFd/MgzELMi4Q==
   dependencies:
     cross-spawn "^7.0.0"
     get-stream "^5.0.0"
@@ -4911,10 +4945,10 @@ fast-glob@^2.2.6:
     merge2 "^1.2.3"
     micromatch "^3.1.10"
 
-fast-glob@^3.0.4, fast-glob@^3.1.1, fast-glob@^3.2.2:
-  version "3.2.2"
-  resolved "https://registry.npmjs.org/fast-glob/-/fast-glob-3.2.2.tgz#ade1a9d91148965d4bf7c51f72e1ca662d32e63d"
-  integrity sha512-UDV82o4uQyljznxwMxyVRJgZZt3O5wENYojjzbaGEGZgeOxkLFf+V4cnUD+krzb2F72E18RhamkMZ7AdeggF7A==
+fast-glob@^3.0.4, fast-glob@^3.1.1, fast-glob@^3.2.2, fast-glob@^3.2.4:
+  version "3.2.4"
+  resolved "https://registry.npmjs.org/fast-glob/-/fast-glob-3.2.4.tgz#d20aefbf99579383e7f3cc66529158c9b98554d3"
+  integrity sha512-kr/Oo6PX51265qeuCYsyGypiO5uJFgBS0jksyG7FUeCyQzNwYnzrNIMR1NXfkZXsMYXYLRAHgISHBz8gQcxKHQ==
   dependencies:
     "@nodelib/fs.stat" "^2.0.2"
     "@nodelib/fs.walk" "^1.2.3"
@@ -8373,6 +8407,13 @@ pretty-ms@^5.1.0:
   dependencies:
     parse-ms "^2.1.0"
 
+pretty-ms@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.npmjs.org/pretty-ms/-/pretty-ms-7.0.0.tgz#45781273110caf35f55cab21a8a9bd403a233dc0"
+  integrity sha512-J3aPWiC5e9ZeZFuSeBraGxSkGMOvulSWsxDByOcbD1Pr75YL3LSNIKIb52WXbCLE1sS5s4inBBbryjF4Y05Ceg==
+  dependencies:
+    parse-ms "^2.1.0"
+
 private@^0.1.8:
   version "0.1.8"
   resolved "https://registry.npmjs.org/private/-/private-0.1.8.tgz#2381edb3689f7a53d653190060fcf822d2f368ff"
@@ -10575,6 +10616,11 @@ yallist@^3.0.0, yallist@^3.0.2, yallist@^3.0.3:
   version "3.1.1"
   resolved "https://registry.npmjs.org/yallist/-/yallist-3.1.1.tgz#dbb7daf9bfd8bac9ab45ebf602b8cbad0d5d08fd"
   integrity sha512-a4UGQaWPH59mOXUYnAG2ewncQS4i4F43Tv3JoAM+s2VDAmS9NsK8GpDMLrCHPksFT7h3K6TOoUNn2pb7RoXx4g==
+
+yaml@^1.10.0:
+  version "1.10.0"
+  resolved "https://registry.npmjs.org/yaml/-/yaml-1.10.0.tgz#3b593add944876077d4d683fee01081bd9fff31e"
+  integrity sha512-yr2icI4glYaNG+KWONODapy2/jDdMSDnrONSjblABjD9B4Z5LgiircSt8m8sRZFNi08kG9Sm0uSHtEmP3zaEGg==
 
 yargs-parser@10.x:
   version "10.1.0"
