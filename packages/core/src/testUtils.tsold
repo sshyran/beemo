@@ -17,18 +17,7 @@ import { DriverMetadata, Argv, BeemoConfig } from './types';
 
 export { mockDebugger, stubArgs };
 
-export class TestDriver<T extends object = {}> extends Driver<T> {
-  name = 'test-driver';
-}
 
-export class TestScript<A extends object = {}, T extends object = {}> extends Script<A, T> {
-  name = 'test-script';
-
-  blueprint() {
-    // eslint-disable-next-line
-    return {} as $FixMe;
-  }
-}
 
 // Use core package since resources are located here
 export const BEEMO_APP_PATH = Path.resolve('..', __dirname);
@@ -64,42 +53,6 @@ export function mockTool(argv: Argv = []): Beemo {
   return tool;
 }
 
-export function mockDriver<C extends object = {}>(
-  name: string,
-  tool: Beemo | null = null,
-  metadata: Partial<DriverMetadata> = {},
-  boot: boolean = true,
-): Driver<C> {
-  const driver = new TestDriver<C>();
-
-  driver.name = name;
-  // driver.tool = tool || mockTool();
-
-  driver.setMetadata({
-    bin: name.toLowerCase(),
-    configName: `${name}.json`,
-    title: name,
-    ...metadata,
-  });
-
-  // if (boot) {
-  //   driver.bootstrap();
-  // }
-
-  return driver;
-}
-
-export function mockScript<C extends object = {}>(
-  name: string,
-  tool: Beemo | null = null,
-): Script<{}, C> {
-  const script = new TestScript<{}, C>();
-
-  script.name = name;
-  script.tool = tool || mockTool();
-
-  return script;
-}
 
 export function applyContext<T extends Context>(context: T): T {
   context.args = parseArgs(['-a', '--foo', 'bar', 'baz']);
@@ -112,44 +65,18 @@ export function applyContext<T extends Context>(context: T): T {
   return context;
 }
 
-export function stubContext(): Context {
-  return applyContext(new Context(stubArgs()));
-}
-
-export function stubConfigArgs(fields?: Partial<ConfigArgs>): Arguments<ConfigArgs> {
-  return stubArgs({
-    names: [],
-    ...fields,
-  });
-}
 
 export function stubConfigContext(): ConfigContext {
   return applyContext(new ConfigContext(stubConfigArgs()));
 }
 
-export function stubDriverArgs(fields?: Partial<DriverArgs>): Arguments<DriverArgs> {
-  return stubArgs({
-    concurrency: 1,
-    graph: false,
-    stdio: 'buffer',
-    workspaces: '',
-    ...fields,
-  });
-}
+
 
 export function stubDriverContext(driver?: Driver): DriverContext {
   return applyContext(new DriverContext(stubDriverArgs(), driver || new TestDriver()));
 }
 
-export function stubScaffoldArgs(fields?: Partial<ScaffoldArgs>): Arguments<ScaffoldArgs> {
-  return stubArgs({
-    action: '',
-    dry: false,
-    generator: '',
-    name: '',
-    ...fields,
-  });
-}
+
 
 export function stubScaffoldContext(
   generator: string = 'generator',
@@ -159,16 +86,7 @@ export function stubScaffoldContext(
   return applyContext(new ScaffoldContext(stubScaffoldArgs(), generator, action, name));
 }
 
-export function stubScriptArgs(fields?: Partial<ScriptArgs>): Arguments<ScriptArgs> {
-  return stubArgs({
-    concurrency: 1,
-    graph: false,
-    name: 'foo',
-    stdio: 'buffer',
-    workspaces: '',
-    ...fields,
-  });
-}
+
 
 export function stubScriptContext(script?: Script): ScriptContext {
   const context = applyContext(new ScriptContext(stubScriptArgs(), 'script'));
