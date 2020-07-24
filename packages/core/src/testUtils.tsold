@@ -21,9 +21,6 @@ export function stubConfigContext(): ConfigContext {
 
 
 
-export function stubDriverContext(driver?: Driver): DriverContext {
-  return applyContext(new DriverContext(stubDriverArgs(), driver || new TestDriver()));
-}
 
 
 export function stubScriptContext(script?: Script): ScriptContext {
@@ -50,12 +47,4 @@ export function stubExecResult(fields?: Partial<execa.ExecaReturnValue>): execa.
     timedOut: false,
     ...fields,
   };
-}
-
-export function prependRoot(part: string): Path {
-  return BEEMO_TEST_ROOT.append(part);
-}
-
-export function getRoot(): Path {
-  return BEEMO_TEST_ROOT;
 }

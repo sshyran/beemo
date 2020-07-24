@@ -25,12 +25,8 @@ export default class CreateConfigRoutine<Ctx extends ConfigContext> extends Rout
   blueprint({ instance }: Predicates): Blueprint<CreateConfigOptions> {
     return {
       // @ts-ignore Errors because Driver is abstract
-      driver: instance(Driver)
-        .required()
-        .notNullable(),
-      tool: instance(Tool)
-        .required()
-        .notNullable(),
+      driver: instance(Driver).required().notNullable(),
+      tool: instance(Tool).required().notNullable(),
     };
   }
 
@@ -73,7 +69,7 @@ export default class CreateConfigRoutine<Ctx extends ConfigContext> extends Rout
   /**
    * Copy configuration file from module.
    */
-  async copyConfigFile(context: Ctx): Promise<Path> {
+  copyConfigFile = async (context: Ctx): Promise<Path> => {
     const { driver, tool } = this.options;
     const { metadata, name } = driver;
     const sourcePath = this.getConfigPath(context);
@@ -92,32 +88,32 @@ export default class CreateConfigRoutine<Ctx extends ConfigContext> extends Rout
 
     context.addConfigPath(name, configPath);
 
-    return fs
-      .copy(sourcePath.path(), configPath.path(), {
-        overwrite: true,
-      })
-      .then(() => configPath);
-  }
+    await fs.copy(sourcePath.path(), configPath.path(), {
+      overwrite: true,
+    });
+
+    return configPath;
+  };
 
   /**
    * Create a temporary configuration file or pass as an option.
    */
-  async createConfigFile(context: Ctx, config: ConfigObject): Promise<Path> {
+  createConfigFile = async (context: Ctx, config: ConfigObject): Promise<Path> => {
     const { driver } = this.options;
     const { metadata, name } = driver;
     const configPath = context.cwd.append(metadata.configName);
 
     this.debug('Creating config file %s', chalk.cyan(configPath));
 
-    driver.config = config as $FixMe;
+    driver.config = config;
     driver.onCreateConfigFile.emit([context, configPath, config]);
 
     context.addConfigPath(name, configPath);
 
-    return fs
-      .writeFile(configPath.path(), this.options.driver.formatConfig(config))
-      .then(() => configPath);
-  }
+    await fs.writeFile(configPath.path(), this.options.driver.formatConfig(config));
+
+    return configPath;
+  };
 
   /**
    * Return file name camel cased.
@@ -177,7 +173,7 @@ export default class CreateConfigRoutine<Ctx extends ConfigContext> extends Rout
   /**
    * Merge multiple configuration sources using the current driver.
    */
-  mergeConfigs(context: Ctx, configs: ConfigObject[]): Promise<ConfigObject> {
+  mergeConfigs = (context: Ctx, configs: ConfigObject[]): Promise<ConfigObject> => {
     const { driver } = this.options;
     const { name } = driver;
 
@@ -191,7 +187,7 @@ export default class CreateConfigRoutine<Ctx extends ConfigContext> extends Rout
     driver.onMergeConfig.emit([context, config]);
 
     return Promise.resolve(config);
-  }
+  };
 
   /**
    * Load a config file with passing the args and tool to the file.
@@ -214,7 +210,7 @@ export default class CreateConfigRoutine<Ctx extends ConfigContext> extends Rout
    * Load config from the provider configuration module
    * and from the local configs/ folder in the consumer.
    */
-  loadConfigFromSources(context: Ctx, prevConfigs: ConfigObject[]): Promise<ConfigObject[]> {
+  loadConfigFromSources = (context: Ctx, prevConfigs: ConfigObject[]): Promise<ConfigObject[]> => {
     const sourcePath = this.getConfigPath(context);
     const localPath = this.getConfigPath(context, true);
     const configs = [...prevConfigs];
@@ -230,12 +226,12 @@ export default class CreateConfigRoutine<Ctx extends ConfigContext> extends Rout
     }
 
     return Promise.resolve(configs);
-  }
+  };
 
   /**
    * Reference configuration file from module using a require statement.
    */
-  referenceConfigFile(context: Ctx): Promise<Path> {
+  referenceConfigFile = async (context: Ctx): Promise<Path> => {
     const { driver, tool } = this.options;
     const { metadata, name } = driver;
     const sourcePath = this.getConfigPath(context);
@@ -256,15 +252,15 @@ export default class CreateConfigRoutine<Ctx extends ConfigContext> extends Rout
 
     const requirePath = context.cwd.relativeTo(sourcePath);
 
-    return fs
-      .writeFile(configPath.path(), `module.exports = require('./${requirePath}');`)
-      .then(() => configPath);
-  }
+    await fs.writeFile(configPath.path(), `module.exports = require('./${requirePath}');`);
+
+    return configPath;
+  };
 
   /**
    * Set environment variables defined by the driver.
    */
-  setEnvVars(context: Ctx, configs: ConfigObject[]): Promise<ConfigObject[]> {
+  setEnvVars = (context: Ctx, configs: ConfigObject[]): Promise<ConfigObject[]> => {
     const { env } = this.options.driver.options;
 
     // TODO: This may cause collisions, isolate somehow?
@@ -273,5 +269,5 @@ export default class CreateConfigRoutine<Ctx extends ConfigContext> extends Rout
     });
 
     return Promise.resolve(configs);
-  }
+  };
 }

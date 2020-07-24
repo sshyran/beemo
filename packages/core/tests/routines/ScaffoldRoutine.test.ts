@@ -14,6 +14,7 @@ describe('ScaffoldRoutine', () => {
 
   beforeEach(() => {
     tool = mockTool();
+    tool.config.module = '@beemo/local';
     context = stubScaffoldContext();
 
     routine = new ScaffoldRoutine('scaffold', 'Scaffolding templates', { tool });

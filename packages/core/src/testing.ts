@@ -8,7 +8,8 @@ import Script from './Script';
 import Tool from './Tool';
 import { DriverMetadata } from './types';
 import Context from './contexts/Context';
-import { DriverContextOptions } from './contexts/DriverContext';
+import ConfigContext from './contexts/ConfigContext';
+import DriverContext, { DriverContextOptions } from './contexts/DriverContext';
 import ScaffoldContext, { ScaffoldContextOptions } from './contexts/ScaffoldContext';
 import { ScriptContextOptions } from './contexts/ScriptContext';
 
@@ -52,7 +53,7 @@ export function mockTool(argv: Argv = []): Tool {
       concurrency: 1,
       graph: true,
     },
-    module: '@beemo/local',
+    module: '@local',
     scripts: [],
     settings: {},
   };
@@ -149,10 +150,26 @@ export function applyContext<T extends Context>(context: T): T {
   return context;
 }
 
+export function stubConfigContext(): ConfigContext {
+  return applyContext(new ConfigContext(stubArgs({})));
+}
+
+export function stubDriverContext(driver?: Driver): DriverContext {
+  return applyContext(new DriverContext(stubDriverArgs(), driver || new TestDriver()));
+}
+
 export function stubScaffoldContext(
   generator: string = 'generator',
   action: string = 'action',
   name: string = '',
 ): ScaffoldContext {
   return applyContext(new ScaffoldContext(stubScaffoldArgs(), generator, action, name));
+}
+
+export function prependRoot(part: string): Path {
+  return BEEMO_TEST_ROOT.append(part);
+}
+
+export function getRoot(): Path {
+  return BEEMO_TEST_ROOT;
 }

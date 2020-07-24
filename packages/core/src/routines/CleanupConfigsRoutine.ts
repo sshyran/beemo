@@ -9,9 +9,7 @@ import { RoutineOptions } from '../types';
 export default class CleanupConfigsRoutine extends Routine<unknown, unknown, RoutineOptions> {
   blueprint({ instance }: Predicates): Blueprint<RoutineOptions> {
     return {
-      tool: instance(Tool)
-        .required()
-        .notNullable(),
+      tool: instance(Tool).required().notNullable(),
     };
   }
 
@@ -24,7 +22,7 @@ export default class CleanupConfigsRoutine extends Routine<unknown, unknown, Rou
   /**
    * Delete all temporary config files.
    */
-  async deleteConfigFiles(context: DriverContext): Promise<void> {
+  deleteConfigFiles = async (context: DriverContext): Promise<void> => {
     await Promise.all(
       context.configPaths.map((config) => {
         this.debug('Deleting config file %s', chalk.cyan(config.path));
@@ -36,5 +34,5 @@ export default class CleanupConfigsRoutine extends Routine<unknown, unknown, Rou
         return fs.remove(config.path.path());
       }),
     );
-  }
+  };
 }
