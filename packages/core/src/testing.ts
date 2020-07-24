@@ -39,7 +39,7 @@ export function mockTool(argv: Argv = []): Tool {
     cwd: BEEMO_TEST_ROOT,
   });
 
-  // @ts-expect-error
+  // @ts-ignore
   tool.debug = mockDebugger();
 
   tool.config = {
