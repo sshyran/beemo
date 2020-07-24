@@ -10,9 +10,7 @@ import { RoutineOptions } from '../types';
 export default class ScaffoldRoutine extends Routine<unknown, unknown, RoutineOptions> {
   blueprint({ instance }: Predicates): Blueprint<RoutineOptions> {
     return {
-      tool: instance(Tool)
-        .required()
-        .notNullable(),
+      tool: instance(Tool).required().notNullable(),
     };
   }
 
@@ -25,7 +23,7 @@ export default class ScaffoldRoutine extends Routine<unknown, unknown, RoutineOp
   /**
    * Execute the hygen scaffolding generator.
    */
-  async runGenerator(context: ScaffoldContext) {
+  runGenerator = async (context: ScaffoldContext) => {
     const { tool } = this.options;
     const args = [context.generator, context.action];
     const moduleName = tool.config.module;
@@ -53,7 +51,7 @@ export default class ScaffoldRoutine extends Routine<unknown, unknown, RoutineOp
 
       throw error;
     }
-  }
+  };
 
   /**
    * Handle shell executions from hygen.
@@ -69,8 +67,7 @@ export default class ScaffoldRoutine extends Routine<unknown, unknown, RoutineOp
    */
   private handleLog = (message: string) => {
     if (message && message.trim()) {
-      // TODO log?
-      // this.tool.console.log(message);
+      console.log(message);
     }
   };
 
