@@ -7,7 +7,7 @@ import isPatternMatch from '../utils/isPatternMatch';
 import { ExecutionError, RoutineOptions } from '../types';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type AnyRoutine = Routine<any, any>;
+export type AnyRoutine = Routine<any, any>;
 
 export interface RunInWorkspacesContextArgs {
   concurrency: number;

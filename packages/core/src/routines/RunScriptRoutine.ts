@@ -9,7 +9,7 @@ import ExecuteScriptRoutine from './script/ExecuteScriptRoutine';
 import RunInWorkspacesRoutine from './RunInWorkspacesRoutine';
 
 export default class RunScriptRoutine extends RunInWorkspacesRoutine<ScriptContext> {
-  protected errors: Error[] = [];
+  errors: Error[] = [];
 
   getInitialValue(context: ScriptContext): Promise<Script> {
     const { tool } = this.options;
@@ -49,7 +49,7 @@ export default class RunScriptRoutine extends RunInWorkspacesRoutine<ScriptConte
    * If the script has been loaded into the tool, return that directly.
    * Scripts can be preloaded from a configuration file or the command line.
    */
-  loadScriptFromTool(context: ScriptContext): Script | null {
+  loadScriptFromTool = (context: ScriptContext): Script | null => {
     this.debug('Attempting to load script from tool');
 
     try {
@@ -59,22 +59,22 @@ export default class RunScriptRoutine extends RunInWorkspacesRoutine<ScriptConte
 
       return script;
     } catch (error) {
-      error.message = this.options.tool.msg('app:fromTool', { message: error.message });
-
-      this.errors.push(error);
+      this.errors.push(
+        new Error(this.options.tool.msg('app:fromTool', { message: error.message })),
+      );
 
       return null;
     }
-  }
+  };
 
   /**
    * Attempt to load a script from the configuration module's `scripts/` folder,
    * or a standard Node modules folder.
    */
-  async loadScriptFromModule(
+  loadScriptFromModule = async (
     context: ScriptContext,
     script: Script | null,
-  ): Promise<Script | null> {
+  ): Promise<Script | null> => {
     if (script) {
       return script;
     }
@@ -105,19 +105,17 @@ export default class RunScriptRoutine extends RunInWorkspacesRoutine<ScriptConte
 
       context.setScript(script);
     } catch (error) {
-      error.message = tool.msg('app:fromModule', { message: error.message });
-
-      this.errors.push(error);
+      this.errors.push(new Error(tool.msg('app:fromModule', { message: error.message })));
     }
 
     return script || null;
-  }
+  };
 
   /**
    * If all of the loading patterns have failed, thrown an error,
    * otherwise add the script and continue.
    */
-  postLoad(context: ScriptContext, script: Script | null): Script {
+  postLoad = (context: ScriptContext, script: Script | null): Script => {
     if (!script) {
       const messages = this.errors.map((error) => `  - ${error.message}`).join('\n');
 
@@ -128,5 +126,5 @@ export default class RunScriptRoutine extends RunInWorkspacesRoutine<ScriptConte
     this.options.tool.scriptRegistry.load(script);
 
     return script;
-  }
+  };
 }

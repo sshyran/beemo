@@ -23,15 +23,7 @@ export function stubConfigContext(): ConfigContext {
 
 
 
-export function stubScriptContext(script?: Script): ScriptContext {
-  const context = applyContext(new ScriptContext(stubScriptArgs(), 'script'));
 
-  if (script) {
-    context.setScript(script, './script.js');
-  }
-
-  return context;
-}
 
 export function stubExecResult(fields?: Partial<execa.ExecaReturnValue>): execa.ExecaReturnValue {
   return {

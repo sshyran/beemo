@@ -11,7 +11,7 @@ import Context from './contexts/Context';
 import ConfigContext from './contexts/ConfigContext';
 import DriverContext, { DriverContextOptions } from './contexts/DriverContext';
 import ScaffoldContext, { ScaffoldContextOptions } from './contexts/ScaffoldContext';
-import { ScriptContextOptions } from './contexts/ScriptContext';
+import ScriptContext, { ScriptContextOptions } from './contexts/ScriptContext';
 
 export { mockDebugger };
 
@@ -156,6 +156,16 @@ export function stubConfigContext(): ConfigContext {
 
 export function stubDriverContext(driver?: Driver): DriverContext {
   return applyContext(new DriverContext(stubDriverArgs(), driver || new TestDriver()));
+}
+
+export function stubScriptContext(script?: Script): ScriptContext {
+  const context = applyContext(new ScriptContext(stubScriptArgs(), 'script'));
+
+  if (script) {
+    context.setScript(script);
+  }
+
+  return context;
 }
 
 export function stubScaffoldContext(
